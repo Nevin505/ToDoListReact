@@ -1,0 +1,6 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    padding-block: 4rem;
+    padding-inline: 8rem;
+}

@@ -1,0 +1,13 @@
+.table{
+    padding-top: 1rem;
+    text-align:center;
+}
+.headingRow{
+    border: 1px solid black;
+    background-color: red;
+  
+}
+.tableHead{
+    padding: 1.8rem;
+    border: 1px solid black;
+}
