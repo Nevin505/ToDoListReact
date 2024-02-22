@@ -1,5 +1,4 @@
-.headingRow{
-    border: 1px solid black;
-    background-color: red;
-  
+th{
+    padding: 0.4rem;
+    border-bottom: 4px solid black;
 }

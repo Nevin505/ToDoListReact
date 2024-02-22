@@ -1,0 +1,16 @@
+.inputBox{
+    align-self:flex-end;
+    padding:0.4rem;
+}
+.tableElement{
+    text-align: center;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+td{
+    padding: 0.4rem;
+    border-bottom: 1px solid black;
+}

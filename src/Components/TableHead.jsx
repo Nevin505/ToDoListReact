@@ -4,7 +4,7 @@ function TableHead({toDoListData }) {
   return (
     <tr className={TableHeadStyles.headingRow}>
       {Object.keys(toDoListData).map((tableHeadingData) => {
-        return <th>{tableHeadingData}</th>;
+        return <th key={tableHeadingData}>{tableHeadingData}</th>;
       })}
     </tr>
   );

@@ -1,100 +1,134 @@
 import { useState } from "react";
+
 import Header from "../Components/Header";
 import Page from "../Components/Page";
 import Subtitle from "../Components/Subtitle";
 import TableHead from "../Components/TableHead.jsx";
 import toDoListData from "../Components/toDoListData.js";
 import Button from '../Components/Button.jsx';
-import ButtonSecond from '../Components/ButtonSecond.jsx';
+import ButtomSmallSquare from '../Components/ButtonSmallSquare.jsx';
 import InputTask from '../Components/Input.jsx';
-// setData((prevtoDoListData)=>prevtoDoListData.filter((remooveData)=>{
-//   return remooveData.id!==id;
-//  }))
+
+import mainPageStyle from '../Pages/MainPage.module.css';
+
 function MainPage() {
   
   const[data,setData]=useState(toDoListData);
 
   const[displayInput,setdisplayInput]=useState(false);
+  
+  const[inputTask,setinputTask]=useState('');
 
-  const[Status,setchangeStatus]=useState('');
+  const[editButtonStatus,setchangeEditButtonStatus]=useState(false);
+
+  const[editedTaskId,setEditedTaskId]=useState();
+  
 
   function deleteTask(id){
-    console.log(id);
-
-    //  const removedData=data.filter((remooveData)=>{
-    //   return remooveData.id!==id;
-    //  })
-    //  setData(removedData)
-
     setData((prevToDoListData)=>prevToDoListData.filter((remooveData)=>{
       return remooveData.id!==id;
     }))
   }
-  function display(){
-    console.log(data);
-  }
-  function addTask(){
-    setdisplayInput(true);
-    
+
+
+
+  function showInputTaskBar(){
+    setdisplayInput(true);  
   }
 
-  let inputTask;
+
+
+
+
+// To Change Button Based on Status
+
+  function changeStatusOnClick(buttonStat,id){    
+  if(buttonStat==='Todo'){
+    setData((cureentDta)=>{
+      const index= cureentDta.findIndex((element)=>{
+            return element.id===id;
+      });
+      const tempArray=[...cureentDta];
+      tempArray[index].Status='In-Progress';
+        return tempArray;
+    })
+   }
+  else if(buttonStat==='In-Progress'){
+    setData((cureentDta)=>{
+      const index= cureentDta.findIndex((element)=>{
+            return element.id===id;
+      });
+      const tempArray=[...cureentDta];
+      tempArray[index].Status='Completed';
+        return tempArray;
+    })
+    }
+  }
 
   function inputChange(event){
-    inputTask=event.target.value;
-    console.log(inputTask);
+      setinputTask(event.target.value);
+   
   }
-
+  
   function adddTask(){
-    setData(currentdata=>{
-      return [...currentdata,{TaskName:inputTask, Status:"Todo",Edit:"E",Remove:"R"}]
-    })
+    if(!editButtonStatus){
+      setData(currentdata=>{
+        return [...currentdata,{TaskName:inputTask, Status:"Todo",Edit:"E",Remove:"R"}]
+      })
+      setinputTask('');
+    }
+    else{
+      setData((currentData)=>{
+        const index=currentData.findIndex((element)=>{
+         return  element.id===editedTaskId;
+        })
+        const modifiedArray=[...currentData];
+        modifiedArray[index].TaskName=inputTask;
+         return modifiedArray;
+      })
+      setchangeEditButtonStatus(false);
+      setinputTask('');
+    }
+   
+
+
+
   }
 
-  function changeStatusButton(status){
-    if(status==='Todo'){
-      status='In-Progress';
-      setchangeStatus(status);
-    }
-    else if(status==='In-Progress'){
-      status='Complete';
-       setchangeStatus(status);
 
-    }
+  function editData(id){
+    setchangeEditButtonStatus(true);
+    setEditedTaskId(id);   
   }
 
   return (
     <Page>
       <Header>TODO List Demo App</Header>
       <Subtitle>Do it Now</Subtitle>
-      <div style={{alignSelf:'flex-end',padding:'0.4rem'}}>
-      <Button buttonType="Add Task" addOperation={addTask}></Button>
-      {displayInput && <InputTask type="text" placeHolder="Enter Task"  addInputOperation={inputChange}></InputTask> }
-      <button onClick={adddTask}>Ok</button>
+      <div className={mainPageStyle.inputBox} >
+      <Button buttonType="Add Task" buttonHandler={showInputTaskBar} variantType="primary"></Button>
+      {displayInput && <div>
+        <InputTask type="text" placeHolder="Enter Task" resetvalue={inputTask}  addInputHanlder={inputChange} ></InputTask>
+        {inputTask}
+       <button onClick={adddTask} disabled={inputTask.length===0}>Ok</button> 
+        </div>}  
       </div>
-      <table style={{textAlign:'center'}}>
+      <table className={mainPageStyle.tableElement}>
         <thead>
-          <TableHead toDoListData={toDoListData[0]} addOperation={addTask}></TableHead>
+          <TableHead toDoListData={toDoListData[0]}></TableHead>
         </thead>
         <tbody>
-        {data.map((element)=>{
-               return <tr>
-                    {/* {Object.values(element).map(val=>{
-                     return <td>{val}</td>
-                    })} */}
-                    <td>{element.id}</td>
-                    <td>{element.TaskName}</td>
-                    <td onClick={()=>changeStatusButton(element.Status)} ><Button buttonType={element.Status} variantType={element.Status}></Button></td>
-                    <td onClick={display}><ButtonSecond>{element.Edit}</ButtonSecond></td>
-                    <td onClick={()=>deleteTask(element.id)}><ButtonSecond>{element.Remove}</ButtonSecond></td>
-                </tr>
-            })}
+         {data.map((element)=>{
+         return <tr key={element.id}> 
+          <td>{element.id}</td>
+          <td>{element.TaskName}</td>
+            <td ><Button  buttonType={element.Status} varaiantType={element.Status==='Todo'?'black':element.Status==='In-Progress'?'alert':'success'} buttonHandler={()=>changeStatusOnClick(element.Status,element.id)} ></Button></td>          
+          <td ><ButtomSmallSquare varaiantType="alert" addClickHandler={()=>editData(element.id)} >Edit</ButtomSmallSquare></td>
+          <td onClick={()=>deleteTask(element.id)}><ButtomSmallSquare>Remove</ButtomSmallSquare></td>
+            </tr>
+          })}
         </tbody>
-      </table>
-
-      {/* Doubt */}
-      {/* <Table></Table> */}
-      
+      </table>    
     </Page>
   );
 }
