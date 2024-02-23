@@ -15,7 +15,7 @@ const toDoListData=[{
 {
     id:"26",
     TaskName:"Finsih Assignment",
-    Status:"Complete",
+    Status:"Completed",
     Edit:"E",
     Remove:"R"
 },

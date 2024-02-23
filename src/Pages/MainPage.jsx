@@ -30,15 +30,9 @@ function MainPage() {
     }))
   }
 
-
-
   function showInputTaskBar(){
     setdisplayInput(true);  
   }
-
-
-
-
 
 // To Change Button Based on Status
 
@@ -50,7 +44,7 @@ function MainPage() {
       });
       const tempArray=[...cureentDta];
       tempArray[index].Status='In-Progress';
-        return tempArray;
+        return sortByStatus(tempArray);
     })
    }
   else if(buttonStat==='In-Progress'){
@@ -60,7 +54,8 @@ function MainPage() {
       });
       const tempArray=[...cureentDta];
       tempArray[index].Status='Completed';
-        return tempArray;
+      
+        return sortByStatus(tempArray);
     })
     }
   }
@@ -69,12 +64,21 @@ function MainPage() {
       setinputTask(event.target.value);
    
   }
+
+  const sortByStatus = (array) => {
+    const statusOrder = ["Todo", "In-Progress", "Completed"];
+    const sortedData = [...array].sort(
+      (a, b) => statusOrder.indexOf(a.Status) - statusOrder.indexOf(b.Status)
+    );
+    return sortedData;
+  };
   
   function adddTask(){
     if(!editButtonStatus){
       setData(currentdata=>{
-        return [...currentdata,{TaskName:inputTask, Status:"Todo",Edit:"E",Remove:"R"}]
-      })
+        let datas= [...currentdata,{TaskName:inputTask, Status:"Todo",Edit:"E",Remove:"R"}]
+      return sortByStatus(datas);
+    })
       setinputTask('');
     }
     else{
