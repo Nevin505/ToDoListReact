@@ -82,6 +82,7 @@ function MainPage() {
         const index=currentData.findIndex((element)=>{
          return  element.id===editedTaskId;
         })
+
         const modifiedArray=[...currentData];
         modifiedArray[index].TaskName=inputTask;
          return modifiedArray;
@@ -90,15 +91,17 @@ function MainPage() {
       setinputTask('');
     }
    
-
-
-
   }
 
 
   function editData(id){
     setchangeEditButtonStatus(true);
     setEditedTaskId(id);   
+    setdisplayInput(true);
+    const value= data.find((item)=>{
+        return item.id===id;
+     })
+    setinputTask(value.TaskName)
   }
 
   return (
@@ -107,10 +110,9 @@ function MainPage() {
       <Subtitle>Do it Now</Subtitle>
       <div className={mainPageStyle.inputBox} >
       <Button buttonType="Add Task" buttonHandler={showInputTaskBar} variantType="primary"></Button>
-      {displayInput && <div>
+      {displayInput && <div className={mainPageStyle.searchBox}>
         <InputTask type="text" placeHolder="Enter Task" resetvalue={inputTask}  addInputHanlder={inputChange} ></InputTask>
-        {inputTask}
-       <button onClick={adddTask} disabled={inputTask.length===0}>Ok</button> 
+        <ButtomSmallSquare  className={mainPageStyle.searchBoxButton} addClickHandler={adddTask}>Ok</ButtomSmallSquare>
         </div>}  
       </div>
       <table className={mainPageStyle.tableElement}>

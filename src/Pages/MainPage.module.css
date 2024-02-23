@@ -5,7 +5,15 @@
 .tableElement{
     text-align: center;
 }
-
+.searchBox{
+    margin-top: 0.4rem;
+    display: flex;
+    gap: 0.4rem;
+}
+.searchBoxButton{
+    flex: 1;
+    align-self: self-end;
+}
 table
 {
     border-collapse: collapse;
