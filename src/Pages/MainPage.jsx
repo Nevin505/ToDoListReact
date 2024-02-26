@@ -1,15 +1,15 @@
 import { useState } from "react";
 
-import Header from "../Components/Header";
-import Page from "../Components/Page";
-import Subtitle from "../Components/Subtitle";
-import TableHead from "../Components/TableHead.jsx";
-import toDoListData from "../Components/toDoListData.js";
-import Button from '../Components/Button.jsx';
-import ButtomSmallSquare from '../Components/ButtonSmallSquare.jsx';
-import InputTask from '../Components/Input.jsx';
+import Header from "../components/Header.jsx";
+import Page from "../components/Page.jsx";
+import Subtitle from "../components/Subtitle.jsx";
+import TableHead from "../components/TableHead.jsx";
+import toDoListData from "../components/toDoListData.js";
+import Button from '../components/Button.jsx';
+import ButtomSmallSquare from '../components/ButtonSmallSquare.jsx';
+import InputTask from '../components/Input.jsx';
 
-import mainPageStyle from '../Pages/MainPage.module.css';
+import mainPageStyle from './MainPage.module.css';
 
 function MainPage() {
   
@@ -128,7 +128,7 @@ function MainPage() {
          return <tr key={element.id}> 
           <td>{element.id}</td>
           <td>{element.TaskName}</td>
-            <td ><Button  buttonType={element.Status} varaiantType={element.Status==='Todo'?'black':element.Status==='In-Progress'?'alert':'success'} buttonHandler={()=>changeStatusOnClick(element.Status,element.id)} ></Button></td>          
+            <td ><Button  buttonType={element.Status} variantType={element.Status==='Todo'?'black':element.Status==='In-Progress'?'alert':'success'} buttonHandler={()=>changeStatusOnClick(element.Status,element.id)} ></Button></td>          
           <td ><ButtomSmallSquare varaiantType="alert" addClickHandler={()=>editData(element.id)} >Edit</ButtomSmallSquare></td>
           <td onClick={()=>deleteTask(element.id)}><ButtomSmallSquare>Remove</ButtomSmallSquare></td>
             </tr>
